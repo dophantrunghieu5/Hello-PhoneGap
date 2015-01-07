@@ -1,4 +1,0 @@
-Hello-PhoneGap
-==============
-
-Hello World 
