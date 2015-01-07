@@ -1,31 +1,25 @@
-var HomeView = Backbone.View.extend({
+var HomeView = function (service) {
 
-    initialize: function () {
-        this.employees = new EmployeeCollection();
-        this.listView = new EmployeeListView({collection: this.employees});
-    },
+    var employeeListView;
 
-    render: function () {
+    this.initialize = function() {
+        this.$el = $('<div/>');
+        this.$el.on('keyup', '.search-key', this.findByName);
+        employeeListView = new EmployeeListView();
+        this.render();
+    };
+
+    this.render = function() {
         this.$el.html(this.template());
-        $('.content', this.el).append(this.listView.render().el);
+        $('.content', this.$el).html(employeeListView.$el);
         return this;
-    },
+    };
 
-    events: {
-        "keyup .search-key":    "search",
-        "keypress .search-key": "onkeypress"
-    },
+    this.findByName = function() {
+        service.findByName($('.search-key').val()).done(function(employees) {
+            employeeListView.setEmployees(employees);
+        });
+    };
 
-    search: function (event) {
-        var key = $('.search-key').val();
-        console.log(key);
-        this.employees.fetch({reset: true, data: {name: key}});
-    },
-
-    onkeypress: function (event) {
-        if (event.keyCode === 13) { // enter key pressed
-            event.preventDefault();
-        }
-    }
-
-});
+    this.initialize();
+}

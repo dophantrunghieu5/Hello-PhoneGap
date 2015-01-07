@@ -1,12 +1,14 @@
-var EmployeeView = Backbone.View.extend({
+var EmployeeView = function(employee) {
 
-    initialize: function () {
+    this.initialize = function() {
+        this.$el = $('<div/>');
+    };
 
-    },
-
-    render: function () {
-        this.$el.html(this.template(this.model.toJSON()));
+    this.render = function() {
+        this.$el.html(this.template(employee));
         return this;
-    }
+    };
 
-});
+    this.initialize();
+
+}

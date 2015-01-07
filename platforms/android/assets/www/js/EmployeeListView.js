@@ -1,18 +1,22 @@
-var EmployeeListView = Backbone.View.extend({
+var EmployeeListView = function () {
 
-    tagName:'ul',
+    var employees;
 
-    className:'table-view',
+    this.initialize = function() {
+        this.$el = $('<div/>');
+        this.render();
+    };
 
-    initialize:function (options) {
-        var self = this;
-        this.collection.on("reset", this.render, this);
-    },
-
-    render:function () {
-        this.$el.empty();
-        console.log(this.collection.models);
-        this.$el.html(this.template(this.collection.toJSON()));
-        return this;
+    this.setEmployees = function(list) {
+        employees = list;
+        this.render();
     }
-});
+
+    this.render = function() {
+        this.$el.html(this.template(employees));
+        return this;
+    };
+
+    this.initialize();
+
+}
